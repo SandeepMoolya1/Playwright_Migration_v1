@@ -1,0 +1,270 @@
+pipeline {
+    agent {
+        docker {
+            image 'mcr.microsoft.com/playwright:v1.63.0-noble'
+            args '--ipc=host'
+            reuseNode true
+        }
+    }
+
+    options {
+        skipDefaultCheckout(true)
+        disableConcurrentBuilds()
+        timestamps()
+    }
+
+    parameters {
+        string(
+            name: 'BRANCH',
+            defaultValue: 'drishti_develop',
+            description: 'Git branch to execute'
+        )
+        choice(
+            name: 'ENV',
+            choices: ['QA', 'Test3', 'Prod'],
+            description: 'Environment to execute against'
+        )
+        string(
+            name: 'TEST_CASE_ID',
+            defaultValue: '',
+            description: 'Test Case ID to execute, for example DCX-8357'
+        )
+    }
+
+    environment {
+        CI = 'true'
+        PLAYWRIGHT_BROWSERS_PATH = '/ms-playwright'
+        PLAYWRIGHT_REPOSITORY_URL = 'https://github.com/sravya-moolya/PlaywrightMigrationPOC.git'
+        SELENIUM_REPOSITORY_URL = 'https://bitbucket.it.keysight.com/scm/ksp/ksp-test-automation.git'
+        SELENIUM_REPOSITORY_BRANCH = 'drishti_develop'
+        JENKINS_PLAYWRIGHT_GIT_CREDENTIAL_ID = '<REPLACE_WITH_PLAYWRIGHT_GIT_CREDENTIAL_ID>'
+        JENKINS_SELENIUM_GIT_CREDENTIAL_ID = '<REPLACE_WITH_SELENIUM_BITBUCKET_CREDENTIAL_ID>'
+        JENKINS_APP_CREDENTIAL_FILE_ID = '<REPLACE_WITH_JENKINS_APP_CREDENTIAL_FILE_ID>'
+    }
+
+    stages {
+        stage('Validate Parameters') {
+            steps {
+                script {
+                    String branch = params.BRANCH?.trim()
+                    String selectedEnvironment = params.ENV?.trim()
+                    String testCaseId = params.TEST_CASE_ID?.trim()
+
+                    if (!branch) {
+                        error('BRANCH is mandatory and cannot be blank.')
+                    }
+                    if (!(branch ==~ /[A-Za-z0-9][A-Za-z0-9._\/-]*/) || branch.contains('..')) {
+                        error('BRANCH contains unsupported characters or a prohibited ".." sequence.')
+                    }
+                    if (!(selectedEnvironment in ['QA', 'Test3', 'Prod'])) {
+                        error("Invalid ENV '${selectedEnvironment}'. Allowed values: QA, Test3, Prod.")
+                    }
+                    if (!testCaseId) {
+                        error('TEST_CASE_ID is mandatory and cannot be blank.')
+                    }
+                    if (!(testCaseId ==~ /[A-Za-z0-9][A-Za-z0-9_-]*/)) {
+                        error('TEST_CASE_ID may contain only letters, numbers, underscores, and hyphens.')
+                    }
+
+                    env.SAFE_BRANCH = branch
+                    env.TEST_CASE_ID_SAFE = testCaseId
+                    env.TEST_GREP = "(^|\\s)@${testCaseId}(?=\\s|\$)"
+                    env.PLAYWRIGHT_ENV = selectedEnvironment.toUpperCase()
+
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} | ${selectedEnvironment} | ${testCaseId} | ${branch}"
+                    currentBuild.description = "ENV=${selectedEnvironment}, TEST_CASE_ID=${testCaseId}, BRANCH=${branch}"
+                }
+            }
+        }
+
+        stage('Checkout Source') {
+            steps {
+                deleteDir()
+                checkout([
+                    $class: 'GitSCM',
+                    branches: [[name: "*/${env.SAFE_BRANCH}"]],
+                    userRemoteConfigs: [[
+                        url: env.PLAYWRIGHT_REPOSITORY_URL,
+                        credentialsId: env.JENKINS_PLAYWRIGHT_GIT_CREDENTIAL_ID
+                    ]]
+                ])
+                dir('.jenkins-dependencies/ksp-test-automation') {
+                    checkout([
+                        $class: 'GitSCM',
+                        branches: [[name: "*/${env.SELENIUM_REPOSITORY_BRANCH}"]],
+                        userRemoteConfigs: [[
+                            url: env.SELENIUM_REPOSITORY_URL,
+                            credentialsId: env.JENKINS_SELENIUM_GIT_CREDENTIAL_ID
+                        ]]
+                    ])
+                }
+            }
+        }
+
+        stage('Display Build Information') {
+            steps {
+                sh '''
+                    set -eu
+                    printf '%s\n' \
+                      '========================================' \
+                      'Playwright Test Execution' \
+                      '========================================' \
+                      "Branch       : ${SAFE_BRANCH}" \
+                      "Environment  : ${ENV}" \
+                      "Test Case ID : ${TEST_CASE_ID_SAFE}" \
+                      "Build Number : ${BUILD_NUMBER}" \
+                      "Workspace    : ${WORKSPACE}" \
+                      "Node         : $(node --version)" \
+                      "npm          : $(npm --version)" \
+                      '========================================'
+                '''
+            }
+        }
+
+        stage('Setup Node / Verify Versions') {
+            steps {
+                sh '''
+                    set -eu
+                    node -e "const major=Number(process.versions.node.split('.')[0]); if (major < 20) { throw new Error('Node.js 20 or newer is required'); }"
+                    npm --version
+                '''
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+            }
+        }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                sh '''
+                    set -eu
+                    # The version-matched Playwright image already contains Chromium and OS dependencies.
+                    npx playwright --version
+                    npx playwright install --dry-run chromium
+                '''
+            }
+        }
+
+        stage('Prepare Environment') {
+            steps {
+                script {
+                    env.SELENIUM_REPO_ROOT = "${env.WORKSPACE}/.jenkins-dependencies/ksp-test-automation"
+                    env.SELENIUM_PROJECT_PATH = env.SELENIUM_REPO_ROOT
+                }
+                sh '''
+                    set -eu
+                    test -f package-lock.json
+                    test -f playwright.config.ts
+                    test -f src/auth/auth.setup.ts
+                    test -f "${SELENIUM_REPO_ROOT}/src/test/resources/qa_drishticonfig.properties"
+                    test -f "${SELENIUM_REPO_ROOT}/src/test/resources/stagingconfig.properties"
+                    test -f "${SELENIUM_REPO_ROOT}/src/test/resources/prodconfig.properties"
+                    rm -rf playwright-report test-results .playwright/auth
+                '''
+            }
+        }
+
+        stage('Resolve Selected Test') {
+            steps {
+                sh '''
+                    set -eu
+                                        set +e
+                    ENV="${PLAYWRIGHT_ENV}" SELENIUM_REPO_ROOT="${SELENIUM_REPO_ROOT}" \
+                      npx playwright test --grep "${TEST_GREP}" --list > selected-tests.txt
+                                        discovery_exit_code=$?
+                                        set -e
+
+                    selected_count=$(grep -Ec "(^|[^A-Za-z0-9_-])${TEST_CASE_ID_SAFE}([^A-Za-z0-9_-]|$)" selected-tests.txt || true)
+                    if [ "${selected_count}" -eq 0 ]; then
+                        printf 'No Playwright test found for TEST_CASE_ID: %s\n' "${TEST_CASE_ID_SAFE}" >&2
+                        cat selected-tests.txt
+                        exit 1
+                    fi
+                    if [ "${discovery_exit_code}" -ne 0 ]; then
+                        printf 'Playwright test discovery failed with exit code %s.\n' "${discovery_exit_code}" >&2
+                        cat selected-tests.txt
+                        exit "${discovery_exit_code}"
+                    fi
+                    if [ "${selected_count}" -ne 1 ]; then
+                        printf 'Expected exactly one Playwright test for TEST_CASE_ID %s, found %s.\n' "${TEST_CASE_ID_SAFE}" "${selected_count}" >&2
+                        cat selected-tests.txt
+                        exit 1
+                    fi
+                    if grep -Fq '[guest]' selected-tests.txt; then
+                        printf '%s\n' guest > .selected-auth-mode
+                    else
+                        printf '%s\n' authenticated > .selected-auth-mode
+                    fi
+                    cat selected-tests.txt
+                '''
+            }
+        }
+
+        stage('Authentication Setup if Required') {
+            steps {
+                echo 'Authentication is user-based. Playwright project dependencies will run the matching centralized auth.setup.ts test; @GUEST has no auth dependency.'
+            }
+        }
+
+        stage('Execute Selected Test') {
+            steps {
+                script {
+                    Closure<Integer> runSelectedTest = {
+                        sh(
+                            returnStatus: true,
+                            script: '''
+                                ENV="${PLAYWRIGHT_ENV}" \
+                                SELENIUM_REPO_ROOT="${SELENIUM_REPO_ROOT}" \
+                                npx playwright test --grep "${TEST_GREP}"
+                            '''
+                        )
+                    }
+
+                    int testExitCode
+                    if (readFile('.selected-auth-mode').trim() == 'guest') {
+                        testExitCode = runSelectedTest()
+                    } else {
+                        withCredentials([
+                            file(
+                                credentialsId: env.JENKINS_APP_CREDENTIAL_FILE_ID,
+                                variable: 'CREDS_FILE_PATH'
+                            )
+                        ]) {
+                            testExitCode = runSelectedTest()
+                        }
+                    }
+
+                    if (testExitCode != 0) {
+                        error("Playwright test ${env.TEST_CASE_ID_SAFE} failed with exit code ${testExitCode}.")
+                    }
+                }
+            }
+        }
+
+        stage('Publish Reports') {
+            steps {
+                echo 'Reports are generated by Playwright and published by the always post action.'
+            }
+        }
+    }
+
+    post {
+        always {
+            junit allowEmptyResults: true, testResults: 'test-results/junit.xml'
+            archiveArtifacts(
+                artifacts: 'playwright-report/**,test-results/**,selected-tests.txt',
+                allowEmptyArchive: true,
+                fingerprint: true
+            )
+        }
+        success {
+            echo "Playwright test ${env.TEST_CASE_ID_SAFE} passed on ${params.ENV} from ${env.SAFE_BRANCH}."
+        }
+        failure {
+            echo "Playwright test ${env.TEST_CASE_ID_SAFE ?: params.TEST_CASE_ID} failed or the pipeline could not complete. Review the archived Playwright report and console output."
+        }
+    }
+}

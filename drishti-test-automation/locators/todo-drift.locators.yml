@@ -1,0 +1,50 @@
+# Deliberately broken locators, used by tests/e2e/healing.spec.ts to prove the
+# healing cascade end to end.
+#
+# Every primary selector below is wrong in a way that mirrors real drift:
+# a renamed test id, classes that no longer exist, a button label that changed.
+# The `description` is accurate, which is exactly what lets the deterministic
+# heuristic tier recover them with no AI call and no network access.
+#
+# `persistHeals: false` keeps the fixture broken: heals apply at runtime but
+# are never written back here. Without it, the first run would repair the file
+# and the demo would only work once.
+
+meta:
+  name: todoDrift
+  description: TodoMVC with intentionally stale selectors (healing demo)
+  url: "#/"
+  persistHeals: false
+  state: seeded
+
+elements:
+  newTodoInput:
+    description: Text field at the top where a new todo is typed, then submitted with Enter
+    css: "#new-todo-input-v2-renamed"
+
+  # A second broken definition of the same field, so two tests can each
+  # exercise a heal of their own. An accepted heal is applied to the repository
+  # for the rest of the worker, so two tests sharing one element would mean
+  # only the first of them actually heals.
+  newTodoInputLegacy:
+    description: Text field at the top where a new todo is typed, then submitted with Enter
+    css: ".todo-app__entry-field"
+
+  todoItems:
+    description: All todo rows currently shown in the list
+    testId: todo-row-legacy
+    multiple: true
+
+  counter:
+    description: Text showing how many todos remain active, e.g. "2 items left"
+    css: ".footer__counter--old"
+
+  clearCompleted:
+    description: Button in the footer that removes all completed todos
+    role: button
+    name: Remove finished items
+
+  ghostWidget:
+    description: A currency conversion widget that this application has never had
+    testId: fx-conversion-widget
+    heal: true

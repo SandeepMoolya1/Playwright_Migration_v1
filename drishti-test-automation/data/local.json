@@ -1,0 +1,3 @@
+{
+  "_comment": "Overrides for TEST_ENV=local (the TodoMVC demo). Only the keys that differ."
+}

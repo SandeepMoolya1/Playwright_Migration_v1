@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "ES2023",
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "types": ["node"],
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": false,
+    "noImplicitOverride": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "declaration": false,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@core/*":      ["src/core/*"],
+      "@locators/*":  ["src/locators/*"],
+      "@ai/*":        ["src/ai/*"],
+      "@dom/*":       ["src/dom/*"],
+      "@fixtures/*":  ["src/fixtures/*"],
+      "@pages/*":     ["src/pages/*"],
+      "@reporting/*": ["src/reporting/*"],
+      "@framework":   ["src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts", "playwright.config.ts", "aiqa.config.ts"]
+}

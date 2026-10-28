@@ -1,0 +1,67 @@
+{
+  "name": "ai-playwright-framework",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Playwright E2E framework with AI auto-healing locators, YAML locator repository, AI codegen and AI-assisted debugging.",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "aiqa": "./bin/aiqa.mjs"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "PWDEBUG=1 playwright test",
+    "test:heal": "AI_HEAL=on AI_HEAL_PERSIST=on playwright test",
+    "test:nohealing": "AI_HEAL=off playwright test",
+    "test:seed": "playwright test tests/seed.spec.ts --headed",
+    "test:dev": "TEST_ENV=dev playwright test",
+    "test:staging": "TEST_ENV=staging playwright test",
+    "test:prod": "TEST_ENV=prod playwright test --grep @smoke",
+    "report": "playwright show-report",
+    "trace": "playwright show-trace",
+    "typecheck": "tsc --noEmit",
+    "build": "tsc -p tsconfig.build.json",
+    "aiqa": "node bin/aiqa.mjs",
+    "aiqa:doctor": "node bin/aiqa.mjs doctor",
+    "aiqa:envs": "node bin/aiqa.mjs envs",
+    "aiqa:list": "node bin/aiqa.mjs list",
+    "aiqa:audit": "node bin/aiqa.mjs audit",
+    "aiqa:check": "node bin/aiqa.mjs check",
+    "aiqa:scan": "node bin/aiqa.mjs scan",
+    "aiqa:gen": "node bin/aiqa.mjs gen",
+    "aiqa:migrate": "node bin/aiqa.mjs migrate",
+    "migrate:drafts": "tsx tools/migrate-drafts.ts",
+    "aiqa:explain": "node bin/aiqa.mjs explain",
+    "agents:init": "playwright init-agents --loop=claude",
+    "fixture-api": "node tools/fixture-api.mjs",
+    "codegen": "playwright codegen",
+    "install:browsers": "playwright install --with-deps"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
+    "dotenv": "^17.2.1",
+    "yaml": "^2.8.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2"
+  },
+  "files": [
+    "bin",
+    "src",
+    "config",
+    "data",
+    "locators",
+    "tools",
+    "aiqa.config.ts",
+    "aiqa.setup.ts",
+    "CLAUDE.md"
+  ]
+}

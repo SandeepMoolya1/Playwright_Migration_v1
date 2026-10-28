@@ -1,0 +1,268 @@
+# Keysight Support (STG) ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â Account Settings page: left menu, section headings,
+# Save Changes buttons, and the Notifications email-preference toggle.
+# Migrated from Selenium AccountSettingsPage.java and
+# AccountSettingsNotificationsPage.java.
+
+meta:
+  name: accountSettings
+  description: Account Settings page with its left-hand section menu and section headings
+  url: "?language=en_US"
+
+elements:
+  heading:
+    description: '"Account Settings" page heading'
+    xpath: "//h2[text()='Account Settings'] | //h1[text()='Account Settings']"
+    index: first
+
+  notificationsHeader:
+    description: Heading of the Notifications section, shown by default when Account Settings opens
+    xpath: "//div[@class='notfHeader']/h1"
+    index: first
+
+  # ---- left-hand menu ---------------------------------------------------
+  menuNotifications:
+    description: Notifications entry in the Account Settings left menu
+    xpath: "//div[@class='nav-item' and normalize-space()='Notifications']"
+    index: first
+
+  menuReportCenter:
+    description: Report Center entry in the Account Settings left menu (CAMS users)
+    xpath: "//div[@class='nav-item' and text()='Report Center']"
+    index: first
+
+  menuServicePreferences:
+    description: Service Preferences entry in the Account Settings left menu
+    xpath: "//div[@class='nav-item' and text()='Service Preferences'] | //button/span[text()='Service Preferences'] | //span[text()='Service Preferences']"
+    index: first
+
+  menuAccountEntitlement:
+    description: Account Entitlements entry in the Account Settings left menu
+    xpath: "//div[@class='nav-item' and text()='Account Entitlements'] | //span[ text()='Account Entitlements']"
+    index: first
+
+  menuTeamManagement:
+    description: Team Management entry in the Account Settings left menu (KSP users)
+    xpath: "//div[@class='nav-item' and text()='Team Management'] | //span[text()='Team Management']"
+    index: first
+
+  menuPreferredSites:
+    description: Preferred Sites entry in the Account Settings left menu
+    xpath: "//div[@class='nav-item' and normalize-space()='Preferred Sites'] | //div[@class='nav-item' and normalize-space()='Preferred Locations'] | //span[normalize-space()='Preferred Sites']"
+    index: first
+
+  menuPreferredLocations:
+    description: Preferred Locations entry in the Account Settings left menu (CAMS users)
+    xpath: "//div[@class='nav-item' and normalize-space()='Preferred Locations']"
+    index: first
+
+  menuMyFiles:
+    description: My Files entry in the Account Settings left menu
+    xpath: "//div[@class='nav-item' and normalize-space()='My Files'] | //button[@data-testid='sidebar-item-my-files']/span[normalize-space()='My Files']"
+    index: first
+
+  menuDefaultAddress:
+    description: Default Address entry in the Account Settings left menu
+    xpath: "//*[normalize-space()='Default Address']"
+    index: first
+
+  menuMyDashboard:
+    description: My Dashboard entry in the Account Settings left menu
+    xpath: "//div//*[text()='My Dashboard']"
+    index: first
+
+  # ---- Save Changes buttons (Selenium compares first and last match) -----
+  saveChangesTop:
+    description: Save Changes button at the top of the Account Settings page (first match)
+    xpath: "//button[@class='confirm kcom roundy medium']"
+    index: first
+
+  saveChangesBottom:
+    description: Save Changes button at the bottom of the Account Settings page (last match)
+    xpath: "//button[@class='confirm kcom roundy medium']"
+    index: last
+
+  # ---- section headings shown after choosing a menu entry ---------------
+  servicePreferencesHeading:
+    description: Heading of the Service Preferences section
+    xpath: "//div[@class='frame-lt']/h1 | //h1[@data-testid='sp-heading']"
+    index: first
+
+  accountEntitlementHeading:
+    description: Heading of the Account Entitlements section
+    xpath: "//div[@class='headerConatiner']/div[@class='header']"
+    index: first
+
+  teamManagementHeading:
+    description: Heading of the Team Management section
+    xpath: "//div[@class='title']/h1[@class='teamTitle'] | //h1[@data-testid='tm-heading']"
+    index: first
+
+  preferredSitesHeading:
+    description: Heading of the Preferred Sites section
+    xpath: "//div[@class='main-header']/p[@class='header-title'] | //p[@class='header-title'] | //h1 "
+    index: first
+
+  myFilesHeading:
+    description: Heading of the My Files section
+    xpath: "//div[@class='main-header']/p[@class='header-title' and text()='My Files'] | //h1[@data-testid='mf-heading']"
+    index: first
+
+  defaultAddressHeading:
+    description: Heading of the Default Address & Contact section
+    xpath: "//h1[@data-testid='da-heading'] | //p[text()='Default Address & Contact']"
+    index: first
+
+  myDashboardHeading:
+    description: Heading of the My Dashboard section
+    xpath: "//h1[text()='My Dashboard']"
+    index: first
+
+  reportCenterHeading:
+    description: Heading of the Report Center section (CAMS users)
+    xpath: "//div[@class='section-content']//h1[text()='Report Center']"
+    index: first
+
+  allLocationsHeading:
+    description: '"All Locations" column heading in the Preferred Locations section'
+    xpath: "//div[@class='tree-column']//h2"
+    index: first
+
+  preferredLocationsHeading:
+    description: '"Preferred Locations" column heading in the Preferred Locations section'
+    xpath: "//div[@class='preferred-column']//h2"
+    index: first
+
+  # ---- Notifications section: email preference --------------------------
+  emailPreferenceToggleWrapper:
+    description: Wrapper whose inline style encodes the on/off state of the email preference toggle
+    xpath: "//div[@class='wrapper']/div[1]"
+    index: first
+
+  emailPreferenceToggle:
+    description: Clickable email preference toggle in the Notifications section
+    xpath: "//div[@class='emailpref']//c-labeled-toggle/div"
+    index: first
+
+# >>> DRAFT(migration): generated locators, not yet verified — regenerated by `npm run migrate:drafts`
+# Source: ksp-test-automation@drishti_develop 5a82ccf — pages\AccountSettingsPage.java. Keys already declared above were kept as they are.
+  accountSettings:
+    description: Account settings on the Account settings page
+    xpath: //h2[text()='Account Settings'] | //h1[text()='Account Settings']
+    tags:
+      - draft
+  notifications:
+    description: Notifications on the Account settings page
+    xpath: //div[@class='nav-item' and normalize-space()='Notifications']
+    tags:
+      - draft
+  servicePreferences:
+    description: Service preferences on the Account settings page
+    xpath: //div[@class='nav-item' and text()='Service Preferences'] | //button/span[text()='Service Preferences'] | //span[text()='Service Preferences']
+    tags:
+      - draft
+  accountEntitlement:
+    description: Account entitlement on the Account settings page
+    xpath: //div[@class='nav-item' and text()='Account Entitlements'] | //span[ text()='Account Entitlements']
+    tags:
+      - draft
+  groupManagement:
+    description: Group management on the Account settings page
+    xpath: //div[@class='nav-item' and normalize-space()='Group Management']
+    tags:
+      - draft
+  teamManagement:
+    description: Team management on the Account settings page
+    xpath: //div[@class='nav-item' and text()='Team Management'] | //span[text()='Team Management']
+    tags:
+      - draft
+  preferredSites:
+    description: Preferred sites on the Account settings page
+    xpath: //div[@class='nav-item' and normalize-space()='Preferred Sites'] | //div[@class='nav-item' and normalize-space()='Preferred Locations'] | //span[normalize-space()='Preferred Sites']
+    tags:
+      - draft
+  myFiles:
+    description: My files on the Account settings page
+    xpath: //div[@class='nav-item' and normalize-space()='My Files'] | //button[@data-testid='sidebar-item-my-files']/span[normalize-space()='My Files']
+    tags:
+      - draft
+  defaultAddress:
+    description: Default address on the Account settings page
+    xpath: //*[normalize-space()='Default Address']
+    tags:
+      - draft
+  myDashboard:
+    description: My dashboard on the Account settings page
+    xpath: //div//*[text()='My Dashboard']
+    tags:
+      - draft
+  saveChangesButtons:
+    description: Save changes buttons on the Account settings page
+    xpath: //button[@class='confirm kcom roundy medium']
+    tags:
+      - draft
+  reportCenter:
+    description: Report center on the Account settings page
+    xpath: //div[@class='nav-item' and text()='Report Center']
+    tags:
+      - draft
+  preferredLocations:
+    description: Preferred locations on the Account settings page
+    xpath: //div[@class='nav-item' and normalize-space()='Preferred Locations']
+    tags:
+      - draft
+  servicePreferencesPage:
+    description: Service preferences page on the Account settings page
+    xpath: //div[@class='frame-lt']/h1 | //h1[@data-testid='sp-heading']
+    tags:
+      - draft
+  accountEntitlementPage:
+    description: Account entitlement page on the Account settings page
+    xpath: //div[@class='headerConatiner']/div[@class='header']
+    tags:
+      - draft
+  groupManagementPage:
+    description: Group management page on the Account settings page
+    xpath: //div[@class='title']/h1[@class='uc']
+    tags:
+      - draft
+  teamManagementPage:
+    description: Team management page on the Account settings page
+    xpath: //div[@class='title']/h1[@class='teamTitle'] | //h1[@data-testid='tm-heading']
+    tags:
+      - draft
+  preferredSitesPage:
+    description: Preferred sites page on the Account settings page
+    xpath: "//div[@class='main-header']/p[@class='header-title'] | //p[@class='header-title'] | //h1 "
+    tags:
+      - draft
+  myFilesPage:
+    description: My files page on the Account settings page
+    xpath: //div[@class='main-header']/p[@class='header-title' and text()='My Files'] | //h1[@data-testid='mf-heading']
+    tags:
+      - draft
+  defaultAddressPage:
+    description: Default address page on the Account settings page
+    xpath: //h1[@data-testid='da-heading'] | //p[text()='Default Address & Contact']
+    tags:
+      - draft
+  myDashboardPage:
+    description: My dashboard page on the Account settings page
+    xpath: //h1[text()='My Dashboard']
+    tags:
+      - draft
+  reportCenterPage:
+    description: Report center page on the Account settings page
+    xpath: //div[@class='section-content']//h1[text()='Report Center']
+    tags:
+      - draft
+  allLocationsPage:
+    description: All locations page on the Account settings page
+    xpath: //div[@class='tree-column']//h2
+    tags:
+      - draft
+  preferredLocationsPage:
+    description: Preferred locations page on the Account settings page
+    xpath: //div[@class='preferred-column']//h2
+    tags:
+      - draft
+# <<< DRAFT(migration)

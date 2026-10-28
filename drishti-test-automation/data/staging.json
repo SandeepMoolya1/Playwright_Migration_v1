@@ -1,0 +1,11 @@
+{
+  "_comment": "Overrides for TEST_ENV=staging. Reference data that genuinely differs there — a SKU that exists in staging, a promo code seeded by the staging fixture job.",
+
+  "search": {
+    "knownTerm": "staging-widget"
+  },
+
+  "checkout": {
+    "validPromoCode": "STAGINGSAVE10"
+  }
+}

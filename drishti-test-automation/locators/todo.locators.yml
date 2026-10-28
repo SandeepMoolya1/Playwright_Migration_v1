@@ -1,0 +1,72 @@
+# Locator repository for the TodoMVC demo app used by the example specs.
+#
+# Three levels of verbosity are all valid; use the least you need:
+#   key: "#css"                       shorthand
+#   key: { role: button, name: X }    inferred strategy
+#   key: { steps: [...] }             explicit chain
+#
+# `description` is not documentation — it is the intent the AI healer matches
+# against when a locator stops resolving. Keep it accurate.
+
+meta:
+  name: todo
+  description: TodoMVC demo application
+  url: "#/"
+  # Seeds two todos so the list, counter, filters and footer exist when
+  # `aiqa check` probes this file. See aiqa.setup.ts.
+  state: seeded
+
+elements:
+  heading:
+    description: Page heading that identifies the TodoMVC app
+    role: heading
+    name: todos
+
+  newTodoInput:
+    description: Text field at the top where a new todo is typed, then submitted with Enter
+    placeholder: What needs to be done?
+    fallbacks:
+      - { css: ".new-todo" }
+      - { role: textbox }
+
+  todoItems:
+    description: All todo rows currently shown in the list
+    testId: todo-item
+    multiple: true
+
+  todoTitles:
+    description: The text label of each todo row
+    testId: todo-title
+    multiple: true
+
+  toggleAll:
+    description: Checkbox above the list that marks every todo complete or active
+    label: Mark all as complete
+    fallbacks:
+      - { css: ".toggle-all" }
+
+  counter:
+    description: Text showing how many todos remain active, e.g. "2 items left"
+    testId: todo-count
+    fallbacks:
+      - { css: ".todo-count" }
+
+  clearCompleted:
+    description: Button in the footer that removes all completed todos
+    role: button
+    name: Clear completed
+
+  filterAll:
+    description: Footer link showing every todo
+    role: link
+    name: All
+
+  filterActive:
+    description: Footer link filtering the list to incomplete todos
+    role: link
+    name: Active
+
+  filterCompleted:
+    description: Footer link filtering the list to completed todos
+    role: link
+    name: Completed

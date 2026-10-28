@@ -1,0 +1,23 @@
+{
+  "_comment": "Reference data shared by every environment. Override per environment in data/<env>.json — values are deep-merged over these.",
+
+  "todos": {
+    "seed": [
+      { "title": "write the test plan", "completed": false },
+      { "title": "review the PR", "completed": false },
+      { "title": "ship the release", "completed": true }
+    ],
+    "longTitle": "a todo with a deliberately long title used to check truncation and wrapping behaviour in the list"
+  },
+
+  "search": {
+    "knownTerm": "widget",
+    "noResultsTerm": "zzzzzzzznotathing"
+  },
+
+  "checkout": {
+    "validPromoCode": "SAVE10",
+    "expiredPromoCode": "EXPIRED2020",
+    "expectedDiscountPercent": 10
+  }
+}

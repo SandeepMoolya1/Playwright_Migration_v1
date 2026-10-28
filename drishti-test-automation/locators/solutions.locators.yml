@@ -1,0 +1,258 @@
+# Keysight Support (STG) - Solutions Support page (solution search, hierarchy
+# and Support Cases section). Migrated from Selenium SolutionsServiceHistoryPage.java
+# and SolutionsSupportCasePage.java (only the elements used by SLN_SC_01).
+# Selenium XPaths are kept as the primary locator.
+
+meta:
+  name: solutions
+  description: Solutions Support page - solution search, solutions hierarchy and Support Cases section
+  url: "?language=en_US"
+
+elements:
+  solutionsTree:
+    description: Solutions hierarchy tree container shown on the Solutions Support page
+    xpath: "//div[@class='tree-container'] | //div[@aria-label='Solutions hierarchy']"
+    index: first
+
+  searchSolutionsInput:
+    description: Search Solutions text field above the solutions hierarchy
+    xpath: "//input[contains(@placeholder,'Search Solutions')] | //div[@data-testid='solutions-search-input']//input"
+    index: first
+
+  solutionNodes:
+    description: Solution records (tree nodes) listed in the solutions hierarchy; filtered by solution number
+    xpath: "//div[@class='tree-container']//span[contains(@class,'node-label')] | //div[@role='treeitem']//p"
+    multiple: true
+
+  selectedSolutionNodes:
+    description: The currently selected solution record in the solutions hierarchy; filtered by solution number
+    xpath: "//div[@class='tree-container']//span[contains(@class,'node-label') and contains(@class,'selected')] | //div[@role='treeitem' and @aria-selected='true']//p"
+    multiple: true
+
+  serviceHistoryHeader:
+    description: Service History section heading shown once a solution record is open
+    xpath: "//h3[normalize-space()='Service History'] | //p[normalize-space()='Service History']"
+    index: first
+
+  supportCasesHeader:
+    description: Support Cases section heading of the opened solution record
+    xpath: "//h3[@class='header-title' and text()='Support Cases'] | //p[text()='Support Cases']"
+    index: first
+
+  solutionSearchIcon:
+    description: Search icon button next to the Search Solutions field that runs the solution search
+    xpath: "//div[@title='Search'] | (//button[@title='Search'])[1]"
+    index: first
+
+  supportCaseSearchBox:
+    description: Search box container of the Support Cases section
+    xpath: "//h3[normalize-space()='Support Cases']/following-sibling::div//c-ksp-global-search[contains(@class,'search-input')] | //p[normalize-space()='Support Cases']//following::div[contains(@class,'relative')]/input[@placeholder='Search Support Cases...']"
+    index: first
+
+  supportCaseSearchInput:
+    description: Text input in the Support Cases section where a keyword or case number is typed to filter cases
+    xpath: "//h3[normalize-space()='Support Cases']/following-sibling::div//c-ksp-global-search[contains(@class,'search-input')]//lightning-primitive-input-simple//div/input |  //p[normalize-space()='Support Cases']//following::div[contains(@class,'relative')]/input[@placeholder='Search Support Cases...']"
+    index: first
+
+  supportCaseCount:
+    description: Text showing how many support cases are listed for the selected solution asset
+    xpath: "//h3[normalize-space()='Support Cases']/parent::div//div[@class='case-count'] | //p[normalize-space()='Support Cases']/following::p[contains(normalize-space(), 'Support Case')]"
+    index: first
+
+  includeChildAssetCasesToggle:
+    description: Include All Child Asset Cases switch in the Support Cases section; aria-checked tells whether it is ON
+    xpath: "//div[normalize-space()='Include All Child Asset Cases']//following-sibling::c-labeled-toggle//div[contains(@style,'visibility: visible')] | //button[@role='switch' and @aria-label='Include All Child Asset Cases']"
+    index: first
+
+  supportCaseRows:
+    description: One row per support case in the Support Cases grid on the current page
+    xpath: "//div[h3[normalize-space()='Support Cases']]//tbody/tr[@class='slds-hint-parent'] | //p[normalize-space()='Support Cases']/following::div[@role='rowgroup'][1]/div"
+    multiple: true
+
+  supportCaseGrid:
+    description: Body of the Support Cases grid listing the support cases
+    xpath: "//div[h3[normalize-space()='Support Cases']]//tbody | //p[normalize-space()='Support Cases']/following::div[@role='rowgroup'][1]"
+    index: first
+
+  supportCaseColumnHeaders:
+    description: Elements carrying an aria-label in the Support Cases grid header; column header names are matched on aria-label
+    xpath: "//div//div[@aria-label]"
+    multiple: true
+
+  supportCaseRtsButton:
+    description: Request Technical Support button in the Support Cases section that opens the support case form for the solution
+    xpath: "//a[@class='custom-button' and text()='Request Technical Support'] | //p[text()='Request Technical Support']//ancestor::a"
+    index: first
+
+  firstSupportCaseNumber:
+    description: Case number link of the first row in the Support Cases grid
+    xpath: "//div[h3[normalize-space()='Support Cases']]//tbody/tr[@data-row-key-value]/td[@data-label='Case Number'] | (//p[normalize-space()='Support Cases']/following::div[@role='rowgroup'][1]/div//a)[1]"
+    index: first
+
+  supportCaseNumberLinks:
+    description: Case number links in the Support Cases grid; filtered by exact case number
+    xpath: "//a[normalize-space()]"
+    multiple: true
+
+  caseDetailsCaseNumber:
+    description: Case number heading on the support case details page
+    xpath: "//h2[@class='title'] | //h2[@data-testid='msc-detail-case-number']"
+    index: first
+
+  expandBranchButton:
+    description: Expand control of a collapsed solution in the hierarchy that reveals its child solution assets
+    xpath: "//div[@class='node-head matched']//span[@title='Expand branch'] | //button[@aria-label='Expand']"
+    index: first
+
+  childSolutionAssets:
+    description: Child and grandchild solution assets shown under the expanded solution in the hierarchy
+    xpath: "//div[contains(@class,'node-body')]//div[@aria-level='2'] | //div[@aria-label='Solutions hierarchy']//div[@role='treeitem' and not(@aria-expanded)]"
+    multiple: true
+
+  exportButton:
+    description: Export button of the Support Cases section that opens the export file format options
+    xpath: "//input[@name='Export'] | //button//p[text()='Export']"
+    index: first
+
+  exportFormatOptions:
+    description: File format buttons (CSV, Excel...) offered after clicking Export; filtered by exact format name
+    xpath: "//button[normalize-space()]"
+    multiple: true
+
+  selectedAssetSerialNumber:
+    description: Serial Number value of the selected solution asset in its detailed information
+    xpath: "//div[contains(@class,'container-labels')][.//text()[contains(.,'Serial Number:')]]/span | //p[text()='Detailed Information']//following::div//span[text()='Serial Number']//following::span[2]"
+    index: first
+
+  dateOpenedValues:
+    description: Date Opened values, one per row, in the Support Cases grid
+    xpath: "//td[@data-label='Date Opened']//span[contains(@class,'date-text')] | (//div[@aria-label='Date Opened']//following::div[@role='row']/div[6])[1]"
+    multiple: true
+
+  nextPageButton:
+    description: Next page button of the Support Cases grid pagination; disabled on the last page
+    xpath: "//button[@title='Next Page'] | //button[@aria-label='Next page']"
+    index: first
+
+  exportToast:
+    description: Toast announcing that the exported report will be available in My Files
+    xpath: "//div[@role='alert']//*[@class='sr-only']"
+    index: first
+
+  toastMyFilesButton:
+    description: My Files call-to-action button inside the export toast that opens the My Files page
+    xpath: "//button[@data-testid='ks-toast-cta']"
+    index: first
+
+# >>> DRAFT(migration): generated locators, not yet verified — regenerated by `npm run migrate:drafts`
+# Source: ksp-test-automation@drishti_develop 5a82ccf — pages\SolutionsPage.java. Keys already declared above were kept as they are.
+  solutionAsset:
+    description: Solution asset on the Solutions page
+    xpath: //div[@class='tree-container']/div | //div[@aria-label='Solutions hierarchy']/div
+    tags:
+      - draft
+  detailedInfoSectionHeader:
+    description: Detailed info section header on the Solutions page
+    xpath: //h3[normalize-space()='Detailed Information'] | //p[normalize-space()='Detailed Information']
+    tags:
+      - draft
+  supportCasesSectionHeader:
+    description: Support cases section header on the Solutions page
+    xpath: //h3[normalize-space()='Support Cases'] | //p[normalize-space()='Support Cases']
+    tags:
+      - draft
+  serviceHistorySectionHeader:
+    description: Service history section header on the Solutions page
+    xpath: //h3[normalize-space()='Service History'] |//p[normalize-space()='Service History']
+    tags:
+      - draft
+  filterButton:
+    description: Filter button on the Solutions page
+    xpath: //button[text()='Filters'] | //button[@data-testid='solutions-filter-button']
+    tags:
+      - draft
+  applyFiltersButton:
+    description: Apply filters button on the Solutions page
+    xpath: //button[text()='Apply Filters'] | //button/span[text()='Apply Filters']
+    tags:
+      - draft
+  clearAllButton:
+    description: Clear all button on the Solutions page
+    xpath: //button[text()='Clear All'] | //button/span[text()='Clear All']
+    tags:
+      - draft
+  highlightedSolutionResult:
+    description: Highlighted solution result on the Solutions page
+    xpath: //div[@class='node-head matched'] | //div[@aria-label='Solutions hierarchy']/div/div[@aria-hidden='true']
+    tags:
+      - draft
+  totalSolutionsRecordCount:
+    description: Total solutions record count on the Solutions page
+    xpath: //div[@class='total'] | //div[@data-testid='solutions-search-input']/following-sibling::div//p
+    tags:
+      - draft
+  modelNumber:
+    description: Model number on the Solutions page
+    xpath: //div[contains(text(),'Model Number')]/span | //span[contains(text(),'Model Number')]/following-sibling::span[last()]
+    tags:
+      - draft
+  serialNumber:
+    description: Serial number on the Solutions page
+    xpath: //div[contains(text(),'Serial Number')]/span | //span[contains(text(),'Serial Number')]/following-sibling::span[last()]
+    tags:
+      - draft
+  manufacturer:
+    description: Manufacturer on the Solutions page
+    xpath: //div[contains(text(),'Manufacturer')]/span | //span[contains(text(),'Manufacturer')]/following-sibling::span[last()]
+    tags:
+      - draft
+  assetNumber:
+    description: Asset number on the Solutions page
+    xpath: //div[contains(text(),'Top System Name')]/span | //span[contains(text(),'Customer Asset Tag')]/following-sibling::span[last()]
+    tags:
+      - draft
+  description:
+    description: Description on the Solutions page
+    xpath: //div[@class='description'] | (//p[normalize-space()='Detailed Information']/parent::div//p)[2]
+    tags:
+      - draft
+  manageAssetModelNumber:
+    description: Manage asset model number on the Solutions page
+    xpath: //label[text()='Model Number']/parent::div//input
+    tags:
+      - draft
+  manageAssetSerialNumber:
+    description: Manage asset serial number on the Solutions page
+    xpath: //label[text()='Serial Number']/parent::div//input
+    tags:
+      - draft
+  manageAssetManufacturer:
+    description: Manage asset manufacturer on the Solutions page
+    xpath: //label[text()='Manufacturer']/parent::div//input
+    tags:
+      - draft
+  manageAssetAssetNumber:
+    description: Manage asset asset number on the Solutions page
+    xpath: //label[text()='Asset Number']/parent::div//input
+    tags:
+      - draft
+  manageAssetDescription:
+    description: Manage asset description on the Solutions page
+    xpath: //label[text()='Description']/parent::div//input
+    tags:
+      - draft
+  waveSymbolPageLoad:
+    description: Wave symbol page load on the Solutions page
+    xpath: //*[name()='path' and contains(@class,'keysight-p')]
+    tags:
+      - draft
+
+# Parameterised locators in SolutionsPage — build these in the page object
+# (e.g. a base key plus `.filter({ hasText })`), they cannot be static keys:
+#   category(String filterOption) -> xpath: //span[text()='{filterOption}']/ancestor::div[@class='accordion-section']/div | //p[text()='{filterOption}']/ancestor::div[@class='shrink-0']/parent::div/preceding-sibling::button[1]
+#   detailedInfoResult(String category) -> xpath: //div[@class='container-labels' and contains(text(),'{category}')]/span | //span[contains(text(),'{category}')]/following-sibling::span[last()]
+#   filterOption(String optionText) -> xpath: (//label[./span[normalize-space()='{optionText}']]//preceding-sibling::input)[last()] | //p[normalize-space()='{optionText}']/parent::span/preceding-sibling::div
+#   filterCategory(String filterName) -> xpath: //div[text()='{filterName}'] | //button/span[text()='{filterName}']
+#   filterCheckBoxIsChecked(String option) -> xpath: //button[@data-testid='pl-sn-data-type-dropdown']//following::div[@role='checkbox']//p[text()='{option}']//ancestor::div[@aria-checked='true'] | //span[normalize-space()='{option}']/ancestor::span[contains(@class,'slds-checkbox')]//input |  //span[normalize-space()='{option}']/preceding-sibling::div/parent::div
+#   filterCategoryCorrespondingOption(String category, String option) -> xpath: //div[text()='{category}']/following::span[text()='{option}'] | //span[text()='{category}']/parent::button/following-sibling::div//p[text()='{option}']
+# <<< DRAFT(migration)

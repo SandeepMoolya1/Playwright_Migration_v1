@@ -1,0 +1,347 @@
+# Keysight Support (STG) - My Profile > Personal Information.
+# Migrated from Selenium MyProfilePersonalInformationPage.java.
+# Selenium XPaths are kept as the primary locator (they are the proven ones on
+# this application); `multiple: true` marks collections the Selenium page
+# object read with findElements().
+
+meta:
+  name: myProfile
+  description: My Profile page - Your Details and Additional Details sections
+  url: "?language=en_US"
+
+elements:
+  heading:
+    description: Page heading reading "My Profile"
+    xpath: "//h2[normalize-space()='My Profile']"
+    index: first
+
+  sectionHeadings:
+    description: The section headings on the My Profile page (Your Details, then Additional Details)
+    xpath: "//h4 | //h2[@class='sub-title']"
+    multiple: true
+
+  yourDetailsLabels:
+    description: Field labels listed in the Your Details section, in display order
+    xpath: "//div[@data-testid='profile-your-details-labels']/span"
+    multiple: true
+
+  yourDetailsValueFields:
+    description: Read-only value cells in the Your Details section
+    xpath: "//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[2]"
+    multiple: true
+
+  yourDetailsEditButton:
+    description: Change (edit) button in the Your Details section header
+    xpath: "//h4[text()='Your Details']/parent::div//button[contains(.,'Change')]"
+    index: first
+
+  additionalDetailsLabels:
+    description: Field labels listed in the Additional Details section, in display order
+    xpath: "//div[@data-testid='profile-additional-details-labels']//span"
+    multiple: true
+
+  additionalDetailsEditButton:
+    description: Change (edit) button in the Additional Details section header
+    xpath: "//h4[text()='Additional Details']/parent::div//button[contains(.,'Change')]"
+    index: first
+
+  firstNameInput:
+    description: First (Given) Name input in the Your Details edit form
+    xpath: "(//div[@class='relative w-full']/input)[1]"
+    index: first
+
+  lastNameInput:
+    description: Last (Family) Name input in the Your Details edit form
+    xpath: "(//div[@class='relative w-full']/input)[2]"
+    index: first
+
+  cityInput:
+    description: City input in the Your Details edit form
+    xpath: "(//div[@class='relative w-full']/input)[5]"
+    index: first
+
+  stateInput:
+    description: State Or Province input in the Your Details edit form
+    xpath: "(//div[@class='relative w-full']/input)[6]"
+    index: first
+
+  countryDropdown:
+    description: Country selector (native select or Radix select button) in the Your Details edit form
+    xpath: "//div[@class='relative w-full']/select | //button[@data-testid='profile-edit-country-select']"
+    index: first
+
+  countryPopperOptions:
+    description: Entries of the open Country dropdown popup (Radix popper), matched by their text
+    xpath: "//div[@data-radix-popper-content-wrapper] | //div[@data-radix-popper-content-wrapper]//span"
+    multiple: true
+    heal: false
+
+  saveChangesButton:
+    description: Save Changes button of the edit form
+    xpath: "//*/span[normalize-space()='Save Changes']"
+    index: first
+
+  saveChangesButtonDisabled:
+    description: Save Changes button while it is disabled (no edits made yet)
+    xpath: "//button[@data-slot='button' and @disabled]/span[text()='Save Changes']"
+    index: first
+    heal: false
+
+  cancelButton:
+    description: Cancel button of the edit form
+    xpath: "//*/span[normalize-space()='Cancel']"
+    index: first
+
+  yourDetailsFirstName:
+    description: Displayed First Name value in the Your Details section after saving
+    xpath: "(//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[1])[2]"
+    index: first
+
+  yourDetailsLastName:
+    description: Displayed Last Name value in the Your Details section after saving
+    xpath: "(//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[2])[2]"
+    index: first
+
+  yourDetailsCity:
+    description: Displayed City value in the Your Details section after saving
+    xpath: "(//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[5])[2]"
+    index: first
+
+  yourDetailsState:
+    description: Displayed State value in the Your Details section after saving
+    xpath: "(//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[6])[2]"
+    index: first
+
+  yourDetailsCountry:
+    description: Displayed Country value in the Your Details section after saving
+    xpath: "(//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[7])[2]"
+    index: first
+
+  errorMessages:
+    description: Inline validation messages shown under mandatory fields (Complete this field / required)
+    xpath: "//p[normalize-space()='Complete this field.'] | //p[contains(text(),'required')]"
+    multiple: true
+
+  toastMessage:
+    description: Toast notification text shown after saving profile changes
+    xpath: "//div[@role='alert']//p"
+    index: first
+
+  prefixInput:
+    description: Prefix input in the Additional Details edit form
+    xpath: "//label[text()='Prefix']/parent::div/following-sibling::div//input"
+    index: first
+
+  jobTitleInput:
+    description: Job Title input in the Additional Details edit form
+    xpath: "//label[text()='Job Title']/parent::div/following-sibling::div//input"
+    index: first
+
+  departmentInput:
+    description: Department input in the Additional Details edit form
+    xpath: "//label[text()='Department']/parent::div/following-sibling::div//input"
+    index: first
+
+  phoneNumberInput:
+    description: Phone Number input in the Additional Details edit form
+    xpath: "//label[text()='Phone Number']/parent::div/following-sibling::div//input"
+    index: first
+
+  mobileNumberInput:
+    description: Mobile Number input in the Additional Details edit form
+    xpath: "//label[text()='Mobile Number']/parent::div/following-sibling::div//input"
+    index: first
+
+  faxInput:
+    description: Fax input in the Additional Details edit form
+    xpath: "//label[text()='Fax']/parent::div/following-sibling::div//input"
+    index: first
+
+  addressLine1Input:
+    description: Address Line 1 input in the Additional Details edit form
+    xpath: "//label[text()='Address Line 1']/parent::div/following-sibling::div//input"
+    index: first
+
+  addressLine2Input:
+    description: Address Line 2 input in the Additional Details edit form
+    xpath: "//label[text()='Address Line 2']/parent::div/following-sibling::div//input"
+    index: first
+
+  addressLine3Input:
+    description: Address Line 3 input in the Additional Details edit form
+    xpath: "//label[text()='Address Line 3']/parent::div/following-sibling::div//input"
+    index: first
+
+  zipCodeInput:
+    description: Zip or Postal Code input in the Additional Details edit form
+    xpath: "//label[text()='Zip or Postal Code']/parent::div/following-sibling::div//input"
+    index: first
+
+  editFormInputs:
+    description: Every text input currently shown in an edit form
+    xpath: "//div[@class='relative w-full']/input"
+    multiple: true
+
+  updatedAdditionalDetails:
+    description: Displayed values in the Additional Details section after saving, in display order
+    xpath: "//h4[text()='Additional Details']/parent::div/following-sibling::div/div[@data-testid='profile-additional-details-values']/span"
+    multiple: true
+
+# >>> DRAFT(migration): generated locators, not yet verified — regenerated by `npm run migrate:drafts`
+# Source: ksp-test-automation@drishti_develop 5a82ccf — pages\MyProfilePersonalInformationPage.java. Keys already declared above were kept as they are.
+  myProfilePage:
+    description: My profile page on the My profile personal information page
+    xpath: //h2[normalize-space()='My Profile']
+    tags:
+      - draft
+  myProfileTwoSections:
+    description: My profile two sections on the My profile personal information page
+    xpath: //h4 | //h2[@class='sub-title']
+    tags:
+      - draft
+  yourDetailsFields:
+    description: Your details fields on the My profile personal information page
+    xpath: //div[@data-testid='profile-your-details-labels']/span
+    tags:
+      - draft
+  yourDetailsInputFields:
+    description: Your details input fields on the My profile personal information page
+    xpath: //h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[2]
+    tags:
+      - draft
+  yoursDetailsEditBtn:
+    description: Yours details edit btn on the My profile personal information page
+    xpath: //h4[text()='Your Details']/parent::div//button[contains(.,'Change')]
+    tags:
+      - draft
+  additionalDetailsFields:
+    description: Additional details fields on the My profile personal information page
+    xpath: //div[@data-testid='profile-additional-details-labels']//span
+    tags:
+      - draft
+  additionalDetailsEditBtn:
+    description: Additional details edit btn on the My profile personal information page
+    xpath: //h4[text()='Additional Details']/parent::div//button[contains(.,'Change')]
+    tags:
+      - draft
+  firstName:
+    description: First name on the My profile personal information page
+    xpath: (//div[@class='relative w-full']/input)[1]
+    tags:
+      - draft
+  lastName:
+    description: Last name on the My profile personal information page
+    xpath: (//div[@class='relative w-full']/input)[2]
+    tags:
+      - draft
+  city:
+    description: City on the My profile personal information page
+    xpath: (//div[@class='relative w-full']/input)[5]
+    tags:
+      - draft
+  state:
+    description: State on the My profile personal information page
+    xpath: (//div[@class='relative w-full']/input)[6]
+    tags:
+      - draft
+  countryDropdownOptions:
+    description: Country dropdown options on the My profile personal information page
+    xpath: //div[@class='relative w-full']/select/option
+    tags:
+      - draft
+  getFirstName:
+    description: Get first name on the My profile personal information page
+    xpath: (//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[1])[2]
+    tags:
+      - draft
+  getLastName:
+    description: Get last name on the My profile personal information page
+    xpath: (//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[2])[2]
+    tags:
+      - draft
+  getCity:
+    description: Get city on the My profile personal information page
+    xpath: (//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[5])[2]
+    tags:
+      - draft
+  getState:
+    description: Get state on the My profile personal information page
+    xpath: (//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[6])[2]
+    tags:
+      - draft
+  getCountry:
+    description: Get country on the My profile personal information page
+    xpath: (//h4[text()='Your Details']/parent::div/following-sibling::div[1]//span[7])[2]
+    tags:
+      - draft
+  prefix:
+    description: Prefix on the My profile personal information page
+    xpath: //label[text()='Prefix']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  jobTitle:
+    description: Job title on the My profile personal information page
+    xpath: //label[text()='Job Title']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  department:
+    description: Department on the My profile personal information page
+    xpath: //label[text()='Department']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  phoneNumber:
+    description: Phone number on the My profile personal information page
+    xpath: //label[text()='Phone Number']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  mobileNumber:
+    description: Mobile number on the My profile personal information page
+    xpath: //label[text()='Mobile Number']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  fax:
+    description: Fax on the My profile personal information page
+    xpath: //label[text()='Fax']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  addressLine1:
+    description: Address line1 on the My profile personal information page
+    xpath: //label[text()='Address Line 1']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  addressLine2:
+    description: Address line2 on the My profile personal information page
+    xpath: //label[text()='Address Line 2']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  addressLine3:
+    description: Address line3 on the My profile personal information page
+    xpath: //label[text()='Address Line 3']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  zipCode:
+    description: Zip code on the My profile personal information page
+    xpath: //label[text()='Zip or Postal Code']/parent::div/following-sibling::div//input
+    tags:
+      - draft
+  inputFieldCommon:
+    description: Input field common on the My profile personal information page
+    xpath: //div[@class='relative w-full']/input
+    tags:
+      - draft
+  yourDetailsEditSection:
+    description: Your details edit section on the My profile personal information page
+    xpath: //p[@data-testid='profile-edit-details-heading']
+    tags:
+      - draft
+  additionalDetailsEditSection:
+    description: Additional details edit section on the My profile personal information page
+    xpath: //p[@data-testid='profile-edit-additional-heading']
+    tags:
+      - draft
+
+# Parameterised locators in MyProfilePersonalInformationPage — build these in the page object
+# (e.g. a base key plus `.filter({ hasText })`), they cannot be static keys:
+#   countryDropdownOptions(String country) -> xpath: //div[@data-radix-popper-content-wrapper and text()='{country}'] | //div[@data-radix-popper-content-wrapper]//span[text()='{country}']
+#   leftPanelOptions(String expectedOption) -> xpath: //ul[@data-testid='profile-sidebar-list']//span[normalize-space()='{expectedOption}']
+# <<< DRAFT(migration)

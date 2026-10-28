@@ -1,0 +1,413 @@
+# Keysight Support (STG) - Request Technical Support.
+# Migrated from Selenium RequestTechnicalSupportPage.java (only the elements
+# used by DCX-8554). Selenium XPaths are kept as the primary locator.
+
+meta:
+  name: requestTechnicalSupport
+  description: Product Help menu and the Request Technical Support case form
+  url: "?language=en_US"
+
+elements:
+  productHelpMenu:
+    description: Product Help button in the header navigation that opens the Product Help menu
+    xpath: "//button[normalize-space()='Product Help']"
+    index: first
+
+  requestTechnicalSupportOption:
+    description: Request Technical Support entry in the Product Help menu
+    xpath: "//a[@class='level2Link' and normalize-space()='Request Technical Support'] | //span[normalize-space()='Request Technical Support']"
+    index: first
+
+  pageHeading:
+    description: Page heading reading "Request Technical Support"
+    xpath: "//h1[text()='Request Technical Support']"
+    index: first
+
+  subjectInput:
+    description: Subject field where the user states the problem when creating a support case
+    xpath: "//input[@class='slds-input' and (@placeholder='Search or ask a question' or @placeholder='Ask a question or state your problem...')] | //input[@data-testid='ts-subject-input']"
+    index: first
+
+  descriptionInput:
+    description: Description text area where the user details the problem when creating a support case
+    xpath: "//textarea[@class='slds-textarea'] | //textarea[@data-testid='ts-description-input']"
+    index: first
+
+  submitButton:
+    description: Submit button that creates the support case
+    xpath: "//button[@class='submit roundy'] | //button[@data-testid='ts-submit-btn' and not(@disabled)]"
+    index: first
+
+  submitButtonDisabled:
+    description: Submit button of the support case form while mandatory fields are still empty (disabled state)
+    xpath: "//button[@class='submit roundy'] | //button[@data-testid='ts-submit-btn' and @disabled]"
+    index: first
+
+  toastTitle:
+    description: Title line of the toast notification shown after an action, e.g. "Support Case Created"
+    xpath: "//div[contains(@class, 'toastTitle')] | //div[@role='alert']//p"
+    index: first
+
+  mySupportCasesHeading:
+    description: Heading of the My Support Cases page shown after a case has been created
+    xpath: "//div[@class='head-text'] | //h2[text()='My Support Cases']"
+    index: first
+
+  chevronShowAdditionalInfo:
+    description: Chevron that expands the collapsed Additional Information section of the support case form
+    xpath: "//lightning-icon[@title='Show']//lightning-primitive-icon[@exportparts='icon']//*[name()='svg'] | //button[@aria-expanded='false']/ksp-icon[@data-icon-type='chevron-down']"
+    index: first
+
+  additionalInfoContent:
+    description: Expanded Additional Information section of the support case form
+    xpath: "//slot[@class='slds-p-around_large']//div[@class='card'] | //div[@data-testid='ts-additional-info-content']"
+    index: first
+
+  toastDescription:
+    description: Description line of the toast shown after submitting a case; contains the new case number
+    xpath: "//*[contains(@class, 'toastMessage')] | //div[@role='alert']//div[@aria-hidden='true']//p[2]"
+    index: first
+
+  certificateInput:
+    description: Certificate number field in the Additional Information section
+    xpath: "//label[contains(text(),'Certificate')]/following::input[1]"
+    index: first
+
+  orderInput:
+    description: Order number field in the Additional Information section
+    xpath: "//label[contains(text(),'Order')]/following::input[1]"
+    index: first
+
+  currentInput:
+    description: Current (software version) field in the Additional Information section
+    xpath: "//label[contains(text(),'Current')]/following::input[1]"
+    index: first
+
+  fixturesInput:
+    description: Fixtures field in the Additional Information section
+    xpath: "//label[contains(text(),'Fixtures')]/following::input[1]"
+    index: first
+
+  issueTypeDropdown:
+    description: Issue Type dropdown in the Additional Information section
+    xpath: "//input[@placeholder='Select type' and @name='case'] | //input[@id='combobox-issue-type']"
+    index: first
+
+  issueReproducibilityDropdown:
+    description: Issue Reproducibility dropdown in the Additional Information section
+    xpath: "//input[@placeholder='Select reproducibility' and @name='case'] | //input[@id='combobox-issue-reproducibility']"
+    index: first
+
+  softwarePlatformDropdown:
+    description: Software Platform dropdown in the Additional Information section
+    xpath: "(//input[@class='slds-input slds-combobox__input lclinput ksp'])[3] | //input[@id='combobox-software-platform']"
+    index: first
+
+  hardwareSoftwareChangedDropdown:
+    description: Has The Hardware / Software Changed Recently dropdown in the Additional Information section
+    xpath: "//input[@placeholder='Select option' and @name='case'] | //input[@placeholder='Select an Option']"
+    index: first
+
+  osPlatformDropdown:
+    description: Operating System Platform dropdown in the Additional Information section
+    xpath: "(//input[@class='slds-input slds-combobox__input lclinput ksp'])[5] | //input[@id='combobox-operating-system-platform']"
+    index: first
+
+  dropdownOptions:
+    description: Visible option labels of the currently opened dropdown; filtered by exact option text
+    xpath: "//span[normalize-space()]"
+    multiple: true
+
+  addProductCaseBtn:
+    description: Add Product(s) to Case button in the Request Technical Support form; opens the product search modal
+    xpath: "//button[normalize-space()='Add Product(s) to Case'] | //button[@data-testid='ts-add-products-btn']"
+
+  searchProductInputBox:
+    description: Product search input in the Add Product(s) to Case modal, where a model or product number is typed
+    xpath: "//input[contains(@placeholder, 'Enter to Search Products')] | //input[contains(@placeholder, 'Search by model')] | //input[@data-testid='ts-search-products-input']"
+
+  productSearchIcon:
+    description: Search icon next to the product search input; runs the product search
+    xpath: "//div[@class='search-icon'] | //div[@data-testid='ts-search-products-input-wrapper']/*[@aria-label='Search']"
+
+  selectProductCheckBox:
+    description: Selection checkbox of the product found by the search in the Add Product(s) to Case modal
+    xpath: "//div[@class='hovertarget'] | (//input[@type='checkbox']/following-sibling::div)[2]"
+
+  addSelectedProductsBtn:
+    description: Add selected products button in the Add Product(s) to Case modal; adds the ticked products to the case
+    xpath: "//c-dcx_button[@class='slds-p-left_large'] | //span[text()='Add selected products']"
+
+  productInfoProduct:
+    description: Product line of the product card in the Product Information section of the case form
+    xpath: "//div[contains(@data-testid,'ts-product-card')]//span[text()='Product']/parent::p"
+
+  generatedAnswer:
+    description: Generated (AI smart) answer text shown under the subject field once a subject is entered
+    xpath: "//div[@class='generated-answer-content__answer'] | //div[@data-testid='ks-genai-answer']/div[2]"
+
+  smartAnswerToggle:
+    description: Smart Answer switch next to the subject field; clicking it turns smart answers on or off
+    xpath: "//span[@class='slds-checkbox_faux'] | //button[@data-testid='ks-genai-toggle']"
+
+  smartToggleOFF:
+    description: Smart Answer switch in its OFF state (present only while smart answers are disabled)
+    xpath: "//span[@class ='slds-checkbox_off'] | //button[@data-testid='ks-genai-toggle' and @aria-checked='false']"
+    heal: false
+
+  smartToggleON:
+    description: Smart Answer switch in its ON state (present only while smart answers are enabled)
+    xpath: "//span[@class ='slds-checkbox_on'] | //button[@data-testid='ks-genai-toggle' and @aria-checked='true']"
+    heal: false
+
+# >>> DRAFT(migration): generated locators, not yet verified — regenerated by `npm run migrate:drafts`
+# Source: ksp-test-automation@drishti_develop 5a82ccf — pages\RequestTechnicalSupportPage.java. Keys already declared above were kept as they are.
+  productHelpSection:
+    description: Product help section on the Request technical support page
+    xpath: //button[normalize-space()='Product Help']
+    tags:
+      - draft
+  requestTechSupportOption:
+    description: Request tech support option on the Request technical support page
+    xpath: //a[@class='level2Link' and normalize-space()='Request Technical Support'] | //span[normalize-space()='Request Technical Support']
+    tags:
+      - draft
+  reqTechSupportPage:
+    description: Req tech support page on the Request technical support page
+    xpath: //h1[text()='Request Technical Support']
+    tags:
+      - draft
+  subjectField:
+    description: Subject field on the Request technical support page
+    xpath: //input[@class='slds-input' and (@placeholder='Search or ask a question' or @placeholder='Ask a question or state your problem...')] | //input[@data-testid='ts-subject-input']
+    tags:
+      - draft
+  descriptionField:
+    description: Description field on the Request technical support page
+    xpath: //textarea[@class='slds-textarea'] | //textarea[@data-testid='ts-description-input']
+    tags:
+      - draft
+  mySupportCasePage:
+    description: My support case page on the Request technical support page
+    xpath: //div[@class='head-text'] | //h2[text()='My Support Cases']
+    tags:
+      - draft
+  verifyProductInfoUpdated:
+    description: Verify product info updated on the Request technical support page
+    xpath: //div[@class='asset-card-info']//div[2]
+    tags:
+      - draft
+  attachFiles:
+    description: Attach files on the Request technical support page
+    xpath: //input[@type='file']
+    tags:
+      - draft
+  doneButtonUpload:
+    description: Done button upload on the Request technical support page
+    xpath: //button/span[text()='Done'] | //button[text()='Done']
+    tags:
+      - draft
+  uploadVerify:
+    description: Upload verify on the Request technical support page
+    xpath: (//*[@class='filename'])[1] | (//div[contains(@class,'flex items-start')]//span)[last()] | //button[starts-with(@data-testid,'ts-attached-file-remove-')] | //button[starts-with(@data-testid,'msc-attached-file-remove-')]
+    tags:
+      - draft
+  uploadClearButton:
+    description: Upload clear button on the Request technical support page
+    xpath: //button[starts-with(@data-testid,'ts-attached-file-remove-')] | //button[starts-with(@data-testid,'msc-attached-file-remove-')] | //*[@icon-name='utility:clear'] | //*[@data-icon-type='close-circle']
+    tags:
+      - draft
+  hardware:
+    description: Hardware on the Request technical support page
+    xpath: //button[normalize-space()='Hardware']
+    tags:
+      - draft
+  manageAssetsOption:
+    description: Manage assets option on the Request technical support page
+    xpath: //a[normalize-space()='Manage Assets']
+    tags:
+      - draft
+  requestTechSupportButton:
+    description: Request tech support button on the Request technical support page
+    xpath: //a[@class='cta-button' and text()='Request Technical Support'] | //div[@data-testid='footer-section-site-help']/following-sibling::div/a[text()='Request Technical Support']
+    tags:
+      - draft
+  requestTechSupportAssetActions:
+    description: Request tech support asset actions on the Request technical support page
+    xpath: //div[@class='action-block-active gs_assets_createsupportcase' and text()='Request Technical Support']
+    tags:
+      - draft
+  assetCheckbox:
+    description: Asset checkbox on the Request technical support page
+    xpath: (//tbody//span[@class='slds-checkbox_faux'])[1] | (//div[@class='tabulator-tableHolder']//span[@class='slds-checkbox_faux'])[1]
+    tags:
+      - draft
+  addProductToCaseButton:
+    description: Add product to case button on the Request technical support page
+    xpath: //button[normalize-space()='Add Product(s) to Case'] | //button[normalize-space()='Add products to case']
+    tags:
+      - draft
+  productSelector:
+    description: Product selector on the Request technical support page
+    xpath: //*[@class='slds-modal__header'] | //div[@data-testid='ts-search-products-modal']
+    tags:
+      - draft
+  ifNotListedLink:
+    description: If not listed link on the Request technical support page
+    xpath: //a[@class='add-details-link'] | //button[@data-testid='ts-search-products-add-details-link']
+    tags:
+      - draft
+  addSelectedProductsButton:
+    description: Add selected products button on the Request technical support page
+    xpath: //button[normalize-space()='Add Selected Product(s)'] | //button[normalize-space()='Add selected products']
+    tags:
+      - draft
+  addProductToCaseTitle:
+    description: Add product to case title on the Request technical support page
+    xpath: //h2[text()='Add Product to Case'] | //h3[text()='Add Product to Case']
+    tags:
+      - draft
+  saveButton:
+    description: Save button on the Request technical support page
+    xpath: //button[normalize-space()='Save']
+    tags:
+      - draft
+  productNumberAddProductToCase:
+    description: Product number add product to case on the Request technical support page
+    xpath: //input[@placeholder='Enter model or product number']
+    tags:
+      - draft
+  cancelButton:
+    description: Cancel button on the Request technical support page
+    xpath: //button[normalize-space()='Cancel']
+    tags:
+      - draft
+  checkBoxSearchProduct:
+    description: Check box search product on the Request technical support page
+    xpath: (//tr[@class='slds-hint-parent']//span[@class='slds-checkbox'])[1] | (//div[@class='flex flex-row group']//input[@type='checkbox']/following-sibling::div)[1]
+    tags:
+      - draft
+  firstRowDescription:
+    description: First row description on the Request technical support page
+    xpath: //tr[contains(@class,'slds-is-selected')]//td[@data-label='Description'] | //div[contains(@class,'flex flex-row group bg')]//span
+    tags:
+      - draft
+  firstRowProduct:
+    description: First row product on the Request technical support page
+    xpath: //tr[contains(@class,'slds-is-selected')]//td[@data-label='Product'] | (//div[contains(@class,'flex flex-row group bg')]//span)[2]
+    tags:
+      - draft
+  firstRowSerial:
+    description: First row serial on the Request technical support page
+    xpath: //tr[contains(@class,'slds-is-selected')]//td[@data-label='Serial Number/Host ID'] | (//div[contains(@class,'flex flex-row group bg')]//span)[3]
+    tags:
+      - draft
+  productInfoDescription:
+    description: Product info description on the Request technical support page
+    xpath: //div[contains(@data-testid,'ts-product-card')]//span[text()='Description']/parent::p
+    tags:
+      - draft
+  productInfoSerial:
+    description: Product info serial on the Request technical support page
+    xpath: //div[contains(@data-testid,'ts-product-card')]//span[text()='Serial Number / Host ID']/parent::p
+    tags:
+      - draft
+  dynamicResults:
+    description: Dynamic results on the Request technical support page
+    xpath: //div[@id='modal-content-id-1-12']//tbody/tr | //div[@class='ksp-grid-cursor']
+    tags:
+      - draft
+  serialNumberAddProductsToCase:
+    description: Serial number add products to case on the Request technical support page
+    xpath: //input[@placeholder='Enter Serial Number']
+    tags:
+      - draft
+  hostIdAddProductsToCase:
+    description: Host id add products to case on the Request technical support page
+    xpath: //input[@placeholder='Enter Host ID']
+    tags:
+      - draft
+  chevronDownIcon:
+    description: Chevron down icon on the Request technical support page
+    xpath: //lightning-icon[@title='Show']//lightning-primitive-icon[@exportparts='icon']//*[name()='svg'] | //button[@aria-expanded='false']/ksp-icon[@data-icon-type='chevron-down']
+    tags:
+      - draft
+  additionalInfo:
+    description: Additional info on the Request technical support page
+    xpath: //slot[@class='slds-p-around_large']//div[@class='card'] | //div[@data-testid='ts-additional-info-content']
+    tags:
+      - draft
+  chevronCollapsesIcon:
+    description: Chevron collapses icon on the Request technical support page
+    xpath: //lightning-icon[@title='Hide']//*[@exportparts='icon']//*[name()='svg'] | //button[@aria-expanded='true']/ksp-icon[@data-icon-type='chevron-down']
+    tags:
+      - draft
+  additionalInfoDropdownOptions:
+    description: Additional info dropdown options on the Request technical support page
+    xpath: //div[@role='listbox']//c-base-combobox-item | //ul[@id='combobox-issue-type-listbox']/li
+    tags:
+      - draft
+  additionalInfoDropdownOptions2:
+    description: Additional info dropdown options2 on the Request technical support page
+    xpath: //input[@placeholder='Select reproducibility']//ancestor::c-base-combobox//div[@role='listbox']//c-base-combobox-item | //ul[@id='combobox-issue-reproducibility-listbox']/li
+    tags:
+      - draft
+  additionalInfoDropdownOptions3:
+    description: Additional info dropdown options3 on the Request technical support page
+    xpath: //input[@placeholder='Select platform']//ancestor::c-base-combobox//div[@role='listbox']//c-base-combobox-item | //ul[@id='combobox-software-platform-listbox']/li
+    tags:
+      - draft
+  getAdditionalInfoDropdownOptions4:
+    description: Get additional info dropdown options4 on the Request technical support page
+    xpath: //input[@placeholder='Select option']//ancestor::c-base-combobox//div[@role='listbox']//c-base-combobox-item | //ul[@id='combobox-has-the-hardware/software-changed-recently?-listbox']/li
+    tags:
+      - draft
+  getAdditionalInfoDropdownOptions5:
+    description: Get additional info dropdown options5 on the Request technical support page
+    xpath: (//input[@placeholder='Select platform'])[2]//ancestor::c-base-combobox//div[@role='listbox']//c-base-combobox-item | //ul[@id='combobox-operating-system-platform-listbox']/li
+    tags:
+      - draft
+  paginationSection:
+    description: Pagination section on the Request technical support page
+    xpath: (//div[@class='cmp-container'])[2] | //nav[@aria-label='Pagination navigation']
+    tags:
+      - draft
+  checkboxes:
+    description: Checkboxes on the Request technical support page
+    xpath: //tbody[@class='ksp slds-scrollable_x']/tr/following::div[@class='hovertarget'] | //input[@type='checkbox']/following-sibling::div
+    tags:
+      - draft
+  removeIcon:
+    description: Remove icon on the Request technical support page
+    xpath: //div[@class='filter-rn']//button
+    tags:
+      - draft
+  productSelectionFirst:
+    description: Product selection first on the Request technical support page
+    xpath: (//c-ksp-checkbox)[1]
+    tags:
+      - draft
+  productSelectionSecond:
+    description: Product selection second on the Request technical support page
+    xpath: (//c-ksp-checkbox)[2]
+    tags:
+      - draft
+  showActionPanel:
+    description: Show action panel on the Request technical support page
+    xpath: //*[@data-key='chevronleft']
+    tags:
+      - draft
+  generatingAnswer:
+    description: Generating answer on the Request technical support page
+    xpath: //span[@aria-live='polite']
+    tags:
+      - draft
+
+# Parameterised locators in RequestTechnicalSupportPage — build these in the page object
+# (e.g. a base key plus `.filter({ hasText })`), they cannot be static keys:
+#   additionalInformationLocators(String name) -> xpath: //label[contains(text(),'{name}')]/following::input[1]
+#   uploadSuccessIcon(int num) -> xpath: (//button[starts-with(@data-testid,'ts-attached-file-remove-')])[{num}] | (//button[starts-with(@data-testid,'msc-attached-file-remove-')])[{num}] | (//*[@variant='success'])[{num}] | (//ksp-icon[@data-icon-type='checkmark-circle'])[{num}]
+#   clickOnProductCheckBox(String ProductId) -> xpath: //*[text()='{ProductId}']/ancestor::td/preceding-sibling::td[2]//span | //*[text()='{ProductId}']/parent::div/preceding-sibling::div/label
+#   articlesPresentBasedOnSubject(String Subject) -> xpath: //a[contains(text(),'{Subject}')] | //a/span[contains(text(),'{Subject}')]
+#   ScrollTillEndOfCheckboxes(int totalRows) -> xpath: //tbody[@class='ksp slds-scrollable_x']/tr[{totalRows}]
+# <<< DRAFT(migration)

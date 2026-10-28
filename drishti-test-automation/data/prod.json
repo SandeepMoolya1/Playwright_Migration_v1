@@ -1,0 +1,7 @@
+{
+  "_comment": "Overrides for TEST_ENV=prod. Production smoke checks only — reference real, stable, non-destructive data.",
+
+  "search": {
+    "knownTerm": "laptop"
+  }
+}
